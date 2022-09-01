@@ -4,34 +4,56 @@
   <meta charset="utf-8">
   <title>ajax_noform.html</title>
 </head>
+<style type="text/css">
+  body div {
+  	margin-top: 5px;
+  	margin-bottom: 5px;
+  }
+  div input[type=button] {
+  	position: relative;
+  	margin: 5px 5px;
+  }
+</style>
 <body>
    <h2><u>AJAX (SIN FORMS - MÉTODO DIRECTO)</u></h2>
    <div>
-      Cadena a enviar: - 
+      Cadena a enviar: <input type="text" id="txtData" size="55" maxlength="50" /> 
    </div>
    <div>
       Cadena recibida: <span id="mydata"></span>
    </div>
    <div>
-   	  <input type="button" id="btnCallData" value="callData" />
+   	  <!-- <input type="button" id="btnCallData" value="callData" /> -->
+   	  <input type="button" id="btnSubmitData" value="submitData" />
+   	  <input type="button" id="btnSubmitDataJSON" value="submitDataJSON" />
    </div>
 </body>
 <script type="text/javascript" src="jquery/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-  	    $("#btnCallData").click(function() {
-            callData();
+  	    
+  	    $("#btnSubmitData").click(function() {
+             submitData();
+  	     });
+
+  	    $("#btnSubmitDataJSON").click(function() {
+            submitDataJSON();
   	    });
         
   });
 
-
-  function callData() {
+  
+  function submitDataJSON() {
   	    $.ajax({
-			type : "GET",
+			type : "POST",
 			url : "getmydata.php",
+			data: {
+                 "cadena": $("#txtData").val()
+			},
 			success : function(itr) {
+                $("#mydata").empty();
                 $("#mydata").append(itr);
+
 				console.log("Salida: " + itr);
 			},
 			error: function(itr) {
@@ -39,5 +61,27 @@
 			},
 	    });
   }
+
+  function submitData() {
+  	    $.ajax({
+			type : "POST",
+			url : "getmydata.php",
+			data: {
+                 "cadena": $("#txtData").val()
+			},
+			success : function(itr) {
+				var json = $.parseJSON(itr);
+
+                $("#mydata").empty();
+                $("#mydata").append(json.cadena);
+
+				console.log("Salida: " + json.cadena);
+			},
+			error: function(itr) {
+
+			},
+	    });
+  }
+
 </script>
 </html>
