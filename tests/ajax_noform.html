@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ajax_noform.html</title>
+</head>
+<body>
+   <h2><u>AJAX (SIN FORMS - MÉTODO DIRECTO)</u></h2>
+   <div>
+      Cadena a enviar: - 
+   </div>
+   <div>
+      Cadena recibida: <span id="mydata"></span>
+   </div>
+   <div>
+   	  <input type="button" id="btnCallData" value="callData" />
+   </div>
+</body>
+<script type="text/javascript" src="jquery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+  	    $("#btnCallData").click(function() {
+            callData();
+  	    });
+        
+  });
+
+
+  function callData() {
+  	    $.ajax({
+			type : "GET",
+			url : "getmydata.php",
+			success : function(itr) {
+                $("#mydata").append(itr);
+				console.log("Salida: " + itr);
+			},
+			error: function(itr) {
+
+			},
+	    });
+  }
+</script>
+</html>
